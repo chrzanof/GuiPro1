@@ -18,18 +18,18 @@ public class WaiterDao implements Dao<Waiter>{
     }
 
     @Override
-    public Optional<Waiter> get(long id) {
-        return Optional.empty();
+    public Optional<Waiter> get(long index) {
+        return Optional.ofNullable(waiters.get((int)index));
     }
 
     @Override
     public List<Waiter> getAll() {
-        return null;
+        return waiters;
     }
 
     @Override
     public void save(Waiter waiter) {
-
+        waiters.add(waiter);
     }
 
     @Override
@@ -39,6 +39,6 @@ public class WaiterDao implements Dao<Waiter>{
 
     @Override
     public void delete(Waiter waiter) {
-
+        waiters.remove(waiter);
     }
 }

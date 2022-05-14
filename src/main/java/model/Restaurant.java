@@ -2,6 +2,7 @@ package model;
 
 import dao.ClientDao;
 import dao.DeliveryManDao;
+import dao.Menu;
 import dao.WaiterDao;
 
 import java.util.*;
@@ -15,6 +16,7 @@ public class Restaurant {
     private ClientDao clientDao;
     private Kitchen kitchen;
     private List<Order> executedOrders;
+    private Menu menu;
 
     private Restaurant() {
         this.dailyTakings = new HashMap<>();
@@ -26,6 +28,18 @@ public class Restaurant {
             INSTANCE = new Restaurant();
         }
         return INSTANCE;
+    }
+
+    public Menu getMenu() {
+        return menu;
+    }
+
+    public void setMenu(Menu menu) {
+        this.menu = menu;
+    }
+
+    public void addExecutedOrder(Order order) {
+        this.executedOrders.add(order);
     }
 
     public Map<Date, Double> getDailyTakings() {

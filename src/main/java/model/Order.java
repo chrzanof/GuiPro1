@@ -8,7 +8,7 @@ public abstract class Order {
     protected static long nextId = 1;
     protected long id;
     protected Client client;
-    protected Map<MenuItem, Integer> orderedItems;
+    protected Map<MenuRow, Integer> orderedItems;
     protected Time placeTime;
     protected double totalPrice;
     protected boolean isFinished;
@@ -16,7 +16,7 @@ public abstract class Order {
 
     private void calculatePrice() {
         double price = 0;
-        for (Map.Entry<MenuItem, Integer> entry : orderedItems.entrySet()) {
+        for (Map.Entry<MenuRow, Integer> entry : orderedItems.entrySet()) {
             price += entry.getKey().getPrice() * entry.getValue();
         }
         this.totalPrice = price;
@@ -27,7 +27,7 @@ public abstract class Order {
         this.orderedItems = new HashMap<>();
     }
 
-    public Order(Map<MenuItem, Integer> orderedItems, Time placeTime, double totalPrice, Client client) {
+    public Order(Map<MenuRow, Integer> orderedItems, Time placeTime, double totalPrice, Client client) {
         this.id = nextId++;
         this.orderedItems = orderedItems;
         this.placeTime = placeTime;
@@ -61,11 +61,11 @@ public abstract class Order {
         this.client = client;
     }
 
-    public Map<MenuItem, Integer> getOrderedItems() {
+    public Map<MenuRow, Integer> getOrderedItems() {
         return orderedItems;
     }
 
-    public void setOrderedItems(Map<MenuItem, Integer> orderedItems) {
+    public void setOrderedItems(Map<MenuRow, Integer> orderedItems) {
         this.orderedItems = orderedItems;
     }
 

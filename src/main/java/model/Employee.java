@@ -1,7 +1,7 @@
 package model;
 
 abstract class Employee {
-    protected static long nextId;
+    protected static long nextId = 1;
     protected long id;
     protected String name;
     protected String surname;

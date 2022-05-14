@@ -1,6 +1,9 @@
 package model;
 
-public class MenuItem {
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+public class MenuRow {
     private static long nextId = 1;
     private long id;
     private String name;
@@ -8,16 +11,35 @@ public class MenuItem {
     private double price;
     private boolean isAvailable;
 
-    public MenuItem() {
+    public MenuRow() {
         this.id = nextId++;
     }
 
-    public MenuItem(String name, String description, double price, boolean isAvailable) {
+    public MenuRow(String name, String description, double price, boolean isAvailable) {
         this.id = nextId++;
         this.name = name;
         this.description = description;
         this.price = price;
         this.isAvailable = isAvailable;
+    }
+
+    @Override
+    public String toString() {
+        return
+                 id +
+                         " " + name +
+                         " " + description +
+                         " " + price + "zł" +
+                         " " + (isAvailable ? "":"niedostępny");
+    }
+
+    public String convertToCSV() {
+        return
+                id +
+                        ";" + name +
+                        ";" + description +
+                        ";" + price +
+                        ";" + isAvailable;
     }
 
     public long getId() {

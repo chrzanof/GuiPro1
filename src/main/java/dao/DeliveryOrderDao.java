@@ -18,18 +18,18 @@ public class DeliveryOrderDao implements Dao<DeliveryOrder>{
     }
 
     @Override
-    public Optional<DeliveryOrder> get(long id) {
-        return Optional.empty();
+    public Optional<DeliveryOrder> get(long index) {
+        return Optional.ofNullable(deliveryOrders.get((int)index));
     }
 
     @Override
     public List<DeliveryOrder> getAll() {
-        return null;
+        return deliveryOrders;
     }
 
     @Override
     public void save(DeliveryOrder deliveryOrder) {
-
+        deliveryOrders.add(deliveryOrder);
     }
 
     @Override
@@ -39,6 +39,6 @@ public class DeliveryOrderDao implements Dao<DeliveryOrder>{
 
     @Override
     public void delete(DeliveryOrder deliveryOrder) {
-
+        deliveryOrders.remove(deliveryOrder);
     }
 }

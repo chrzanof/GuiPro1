@@ -4,7 +4,7 @@ public class DeliveryMan extends Employee {
     public DeliveryMan() {
     }
 
-    public DeliveryMan(long id, String name, String surname, String phoneNumber) {
+    public DeliveryMan(String name, String surname, String phoneNumber) {
         super(name, surname, phoneNumber);
     }
 }

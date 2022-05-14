@@ -18,18 +18,18 @@ public class CookDao implements Dao<Cook>{
     }
 
     @Override
-    public Optional<Cook> get(long id) {
-        return Optional.empty();
+    public Optional<Cook> get(long index) {
+        return Optional.ofNullable(cooks.get((int)index));
     }
 
     @Override
     public List<Cook> getAll() {
-        return null;
+        return cooks;
     }
 
     @Override
     public void save(Cook cook) {
-
+        cooks.add(cook);
     }
 
     @Override
@@ -39,6 +39,6 @@ public class CookDao implements Dao<Cook>{
 
     @Override
     public void delete(Cook cook) {
-
+        cooks.remove(cook);
     }
 }

@@ -18,18 +18,18 @@ public class DeliveryManDao implements Dao<DeliveryMan> {
     }
 
     @Override
-    public Optional<DeliveryMan> get(long id) {
-        return Optional.empty();
+    public Optional<DeliveryMan> get(long index) {
+        return Optional.ofNullable(deliveryManList.get((int)index));
     }
 
     @Override
     public List<DeliveryMan> getAll() {
-        return null;
+        return deliveryManList;
     }
 
     @Override
     public void save(DeliveryMan deliveryMan) {
-
+        deliveryManList.add(deliveryMan);
     }
 
     @Override
@@ -39,6 +39,6 @@ public class DeliveryManDao implements Dao<DeliveryMan> {
 
     @Override
     public void delete(DeliveryMan deliveryMan) {
-
+        deliveryManList.remove(deliveryMan);
     }
 }

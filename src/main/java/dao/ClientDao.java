@@ -18,18 +18,18 @@ public class ClientDao implements Dao<Client> {
     }
 
     @Override
-    public Optional<Client> get(long id) {
-        return Optional.empty();
+    public Optional<Client> get(long index) {
+        return Optional.ofNullable(clients.get((int)index));
     }
 
     @Override
     public List<Client> getAll() {
-        return null;
+        return clients;
     }
 
     @Override
     public void save(Client client) {
-
+        clients.add(client);
     }
 
     @Override
@@ -39,6 +39,6 @@ public class ClientDao implements Dao<Client> {
 
     @Override
     public void delete(Client client) {
-
+        clients.remove(client);
     }
 }

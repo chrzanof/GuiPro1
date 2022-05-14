@@ -18,18 +18,18 @@ public class StationaryOrderDao implements Dao<StationaryOrder>{
     }
 
     @Override
-    public Optional<StationaryOrder> get(long id) {
-        return Optional.empty();
+    public Optional<StationaryOrder> get(long index) {
+        return Optional.ofNullable(stationaryOrders.get((int)index));
     }
 
     @Override
     public List<StationaryOrder> getAll() {
-        return null;
+        return stationaryOrders;
     }
 
     @Override
     public void save(StationaryOrder stationaryOrder) {
-
+        stationaryOrders.add(stationaryOrder);
     }
 
     @Override
@@ -39,6 +39,6 @@ public class StationaryOrderDao implements Dao<StationaryOrder>{
 
     @Override
     public void delete(StationaryOrder stationaryOrder) {
-
+        stationaryOrders.remove(stationaryOrder);
     }
 }

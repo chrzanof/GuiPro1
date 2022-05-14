@@ -9,7 +9,7 @@ public class DeliveryOrder extends Order {
     public DeliveryOrder() {
     }
 
-    public DeliveryOrder(Map<MenuItem, Integer> orderedItems, Time placeTime, double totalPrice, Client client, String address) {
+    public DeliveryOrder(Map<MenuRow, Integer> orderedItems, Time placeTime, double totalPrice, Client client, String address) {
         super(orderedItems, placeTime, totalPrice,client);
         this.address = address;
         this.isDelivered = false;
