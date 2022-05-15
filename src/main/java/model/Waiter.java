@@ -1,7 +1,7 @@
 package model;
 
 public class Waiter extends Employee {
-    private int tipSum;
+    private double tipSum;
     private int numberOfOrdersExecuted;
     public Waiter() {
     }
@@ -25,11 +25,11 @@ public class Waiter extends Employee {
         this.numberOfOrdersExecuted = numberOfOrdersExecuted;
     }
 
-    public int getTipSum() {
+    public double getTipSum() {
         return tipSum;
     }
 
-    public void setTipSum(int tipSum) {
+    public void setTipSum(double tipSum) {
         this.tipSum = tipSum;
     }
 }

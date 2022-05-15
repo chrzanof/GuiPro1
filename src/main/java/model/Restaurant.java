@@ -89,7 +89,7 @@ public class Restaurant {
         int dt = 0;
 
         StationaryOrder prevStationaryOrder = null;
-        System.out.println("Na miejscu");
+        System.out.println("Na miejscu:");
         System.out.println();
         while (this.getKitchen().getStationaryOrderDao().getAll().size() > 0)
         {
@@ -101,7 +101,7 @@ public class Restaurant {
                 if (secondsPassed > dt) {
                     stationaryOrder.setReady(true);
                     System.out.println(secondsPassed + ": Podano zamówienie " + stationaryOrder.getId());
-                    if (startTime + secondsPassed > stationaryOrder.getPlaceDate().getTime() + MAX_WAIT_TIME){
+                    if (startTime + secondsPassed > stationaryOrder.getPlaceDate().getTime() + MAX_WAIT_TIME) {
                         System.out.println(secondsPassed+ ":Spóźnienie");
                         stationaryOrder.setRejected(random.nextBoolean());
                         if(stationaryOrder.isRejected) {
@@ -110,11 +110,9 @@ public class Restaurant {
                             System.out.println(secondsPassed + ": Przyjęto zamówienie " + stationaryOrder.getId());
                         }
                     } else {
-                        int tipSum = stationaryOrder.getWaiter().getTipSum();
-                        int tip = (int)(stationaryOrder.getTotalPrice()
-                                * 0.1
-                                * (stationaryOrder.getPlaceDate().getTime() + MAX_WAIT_TIME - startTime + secondsPassed)
-                                / (stationaryOrder.getPlaceDate().getTime() + MAX_WAIT_TIME));
+                        double tipSum = stationaryOrder.getWaiter().getTipSum();
+                        double tip = (stationaryOrder.getTotalPrice()
+                                * 0.1);
                         tipSum += tip;
                         stationaryOrder.getWaiter().setTipSum(tipSum);
                         stationaryOrder.setTotalPrice(stationaryOrder.getTotalPrice()*0.8);
@@ -129,7 +127,7 @@ public class Restaurant {
 
         DeliveryOrder prevDeliveryOrder = null;
         Map<Long, DeliveryOrder> ordersToDeliver = new HashMap<>();
-        System.out.println("Na wynos");
+        System.out.println("Na wynos:");
         System.out.println();
         while (this.getKitchen().getDeliveryOrderDao().getAll().size() > 0)
         {
@@ -146,7 +144,7 @@ public class Restaurant {
                 System.out.println(secondsPassed + ": Dostarczono zamówienie " + deliveryOrder.getId());
 
                 if (startTime + secondsPassed > deliveryOrder.getPlaceDate().getTime() + MAX_WAIT_TIME){
-                    System.out.println(secondsPassed+ ":Spóźnienie");
+                    System.out.println(secondsPassed + ":Spóźnienie");
                     deliveryOrder.setRejected(random.nextBoolean());
                     if(deliveryOrder.isRejected) {
                         System.out.println(secondsPassed + ": Odrzucono zamówienie " + deliveryOrder.getId());
@@ -155,11 +153,10 @@ public class Restaurant {
                     }
                 }
                 else {
-                    int tipSum = deliveryOrder.getDeliveryMan().getTipSum();
-                    int tip = (int)(deliveryOrder.getTotalPrice()
-                            * 0.1
-                            * (deliveryOrder.getPlaceDate().getTime() + MAX_WAIT_TIME - startTime + secondsPassed)
-                            / (deliveryOrder.getPlaceDate().getTime() + MAX_WAIT_TIME));
+                    double tipSum = deliveryOrder.getDeliveryMan().getTipSum();
+                    double tip = (deliveryOrder.getTotalPrice()
+                            * 0.1);
+
                     tipSum += tip;
                     deliveryOrder.getDeliveryMan().setTipSum(tipSum);
                     deliveryOrder.setTotalPrice(deliveryOrder.getTotalPrice()*0.8);

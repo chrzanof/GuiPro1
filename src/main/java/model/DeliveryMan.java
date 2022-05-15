@@ -1,7 +1,7 @@
 package model;
 
 public class DeliveryMan extends Employee {
-    private int tipSum;
+    private double tipSum;
     private int numberOfOrdersDelivered;
     private boolean isFree;
     public DeliveryMan() {
@@ -36,11 +36,11 @@ public class DeliveryMan extends Employee {
         this.numberOfOrdersDelivered = numberOfOrdersDelivered;
     }
 
-    public int getTipSum() {
+    public double getTipSum() {
         return tipSum;
     }
 
-    public void setTipSum(int tipSum) {
+    public void setTipSum(double tipSum) {
         this.tipSum = tipSum;
     }
 }
