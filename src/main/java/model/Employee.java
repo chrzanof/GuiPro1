@@ -7,6 +7,8 @@ abstract class Employee {
     protected String surname;
     protected String phoneNumber;
 
+
+
     public Employee() {
     }
 
@@ -15,6 +17,14 @@ abstract class Employee {
         this.name = name;
         this.surname = surname;
         this.phoneNumber = phoneNumber;
+    }
+    @Override
+    public String toString() {
+        return
+                 id +
+                " " + name +
+                " " + surname +
+                " " + phoneNumber;
     }
 
     public long getId() {

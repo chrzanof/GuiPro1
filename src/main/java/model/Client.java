@@ -20,6 +20,15 @@ public class Client {
         this.email = email;
     }
 
+    @Override
+    public String toString() {
+        return id +
+                " " + name +
+                " " + surname +
+                " " + phoneNumber +
+                " " + email;
+    }
+
     public String getEmail() {
         return email;
     }

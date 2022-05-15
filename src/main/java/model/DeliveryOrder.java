@@ -6,6 +6,7 @@ import java.util.Map;
 public class DeliveryOrder extends Order {
     private String address;
     private boolean isDelivered;
+    private DeliveryMan deliveryMan;
     public DeliveryOrder() {
     }
 
@@ -13,6 +14,22 @@ public class DeliveryOrder extends Order {
         super(orderedItems, placeTime, totalPrice,client);
         this.address = address;
         this.isDelivered = false;
+    }
+
+    @Override
+    public String toString() {
+        return super.toString() +
+                " " + address +
+                " " + isDelivered +
+                " " + deliveryMan;
+    }
+
+    public DeliveryMan getDeliveryMan() {
+        return deliveryMan;
+    }
+
+    public void setDeliveryMan(DeliveryMan deliveryMan) {
+        this.deliveryMan = deliveryMan;
     }
 
     public String getAddress() {

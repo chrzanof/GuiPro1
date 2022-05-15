@@ -1,6 +1,7 @@
 package model;
 
 import java.sql.Time;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -9,12 +10,24 @@ public abstract class Order {
     protected long id;
     protected Client client;
     protected Map<MenuRow, Integer> orderedItems;
-    protected Time placeTime;
+    protected Date placeDate;
     protected double totalPrice;
-    protected boolean isFinished;
+    protected boolean isReady;
     protected boolean isRejected;
 
-    private void calculatePrice() {
+    @Override
+    public String toString() {
+        return
+                id +
+                " " + client +
+                " " + orderedItems +
+                " " + placeDate +
+                " " + totalPrice +
+                " " + isReady +
+                " " + isRejected;
+    }
+
+    public void calculatePrice() {
         double price = 0;
         for (Map.Entry<MenuRow, Integer> entry : orderedItems.entrySet()) {
             price += entry.getKey().getPrice() * entry.getValue();
@@ -27,22 +40,22 @@ public abstract class Order {
         this.orderedItems = new HashMap<>();
     }
 
-    public Order(Map<MenuRow, Integer> orderedItems, Time placeTime, double totalPrice, Client client) {
+    public Order(Map<MenuRow, Integer> orderedItems, Date placeDate, double totalPrice, Client client) {
         this.id = nextId++;
         this.orderedItems = orderedItems;
-        this.placeTime = placeTime;
+        this.placeDate = placeDate;
         this.totalPrice = totalPrice;
         this.client = client;
-        this.isFinished = false;
+        this.isReady = false;
         this.isRejected = false;
     }
 
-    public boolean isFinished() {
-        return isFinished;
+    public boolean isReady() {
+        return isReady;
     }
 
-    public void setFinished(boolean finished) {
-        isFinished = finished;
+    public void setReady(boolean ready) {
+        isReady = ready;
     }
 
     public boolean isRejected() {
@@ -69,12 +82,12 @@ public abstract class Order {
         this.orderedItems = orderedItems;
     }
 
-    public Time getPlaceTime() {
-        return placeTime;
+    public Date getPlaceTime() {
+        return placeDate;
     }
 
-    public void setPlaceTime(Time placeTime) {
-        this.placeTime = placeTime;
+    public void setPlaceDate(Date placeDate) {
+        this.placeDate = placeDate;
     }
 
     public double getTotalPrice() {

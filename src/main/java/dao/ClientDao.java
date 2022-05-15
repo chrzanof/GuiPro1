@@ -17,9 +17,20 @@ public class ClientDao implements Dao<Client> {
         this.clients = clients;
     }
 
+    private long getIndexOfId(long id) {
+        long index = -1;
+        for (int i = 0; i < clients.size(); i++) {
+            if(clients.get(i).getId() == id){
+                index = i;
+                break;
+            }
+        }
+        return index;
+    }
+
     @Override
-    public Optional<Client> get(long index) {
-        return Optional.ofNullable(clients.get((int)index));
+    public Optional<Client> get(long id) {
+        return Optional.ofNullable(clients.get((int)getIndexOfId(id)));
     }
 
     @Override

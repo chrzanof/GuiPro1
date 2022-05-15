@@ -9,6 +9,12 @@ public class Waiter extends Employee {
         super(name, surname, phoneNumber);
     }
 
+    @Override
+    public String toString() {
+        return super.toString() +
+                " " + tipSum;
+    }
+
     public double getTipSum() {
         return tipSum;
     }

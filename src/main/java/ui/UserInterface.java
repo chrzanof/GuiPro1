@@ -12,7 +12,7 @@ public interface UserInterface {
     void changeAvailability(Scanner scanner);
     void newOrder(Scanner scanner);
     void newRandomOrder();
-    void printAllOrders();
+    void printAwaitingOrders();
     void printExecutedOrders();
     void calculateAndPrintDailyTakings();
     void addNewEmployee(Scanner scanner);

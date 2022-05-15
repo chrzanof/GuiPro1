@@ -58,36 +58,38 @@ public class Main {
                 case(4):
                     ui.changeAvailability(scanner);
                     break;
-
+                case(5):
+                    ui.newOrder(scanner);
+                    break;
                 case(6):
-
+                    ui.newRandomOrder();
                     break;
                 case(7):
-
+                    ui.printAwaitingOrders();
                     break;
                 case(8):
-
+                    ui.printExecutedOrders();
                     break;
                 case(9):
-
+                    ui.calculateAndPrintDailyTakings();
                     break;
                 case(10):
-
+                    ui.addNewEmployee(scanner);
                     break;
                 case(11):
-
+                    ui.deleteEmployee(scanner);
                     break;
                 case(12):
-
+                    ui.printAllEmployees();
                     break;
                 case(13):
-
+                    ui.printEmployee(scanner);
                     break;
                 case(14):
-
+                    ui.startWorking();
                     break;
                 case(15):
-
+                    ui.printAllClients(scanner);
                     break;
 
                 default:

@@ -1,11 +1,11 @@
 package model;
 
+import ui.Colors;
+
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class MenuRow {
-    public static final String ANSI_RED = "\u001B[31m";
-    public static final String RESET = "\033[0m";
     private static long nextId = 1;
     private long id;
     private String name;
@@ -32,7 +32,7 @@ public class MenuRow {
                          " " + name +
                          " " + description +
                          " " + price + "zł" +
-                         " " + (isAvailable ? "":(ANSI_RED+"niedostępny"+ RESET));
+                         " " + (isAvailable ? "":(Colors.RED+"niedostępny"+ Colors.RESET));
     }
 
     public String convertToCSV() {

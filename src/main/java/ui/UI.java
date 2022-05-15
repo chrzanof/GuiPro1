@@ -1,9 +1,12 @@
 package ui;
 
-import model.MenuRow;
-import model.Restaurant;
+import model.*;
 
+import java.sql.Time;
+import java.time.Instant;
+import java.util.Date;
 import java.util.Scanner;
+import java.util.Timer;
 
 public class UI implements UserInterface{
     Restaurant restaurant;
@@ -30,6 +33,7 @@ public class UI implements UserInterface{
                 "12 - wszyscy pracownicy\n" +
                 "13 - info o pracowniku\n" +
                 "14 - wykonaj zamówienia\n" +
+                        "15 - lista klientów\n" +
                 "0 - zakończ program");
         System.out.println();
     }
@@ -81,7 +85,51 @@ public class UI implements UserInterface{
 
     @Override
     public void newOrder(Scanner scanner) {
-
+        System.out.println("1 - na miejscu   2 - na wynos");
+        int option = scanner.nextInt();
+        if(option == 1){
+            StationaryOrder order = new StationaryOrder();
+            System.out.println("Numer Klienta:");
+            long clientId = scanner.nextLong();
+            Client client = restaurant.getClientDao().get(clientId).get();
+            long itemNumber = -1;
+            while(true) {
+                System.out.println("Numer dania(0 aby zakończyć):");
+                itemNumber = scanner.nextLong();
+                if(itemNumber == 0) {
+                    break;
+                }
+                System.out.println("ilość: ");
+                Integer quantity = scanner.nextInt();
+                order.getOrderedItems().put(restaurant.getMenu().get(itemNumber - 1).get(), quantity);
+            }
+            order.calculatePrice();
+            Date date = Date.from(Instant.now());
+            order.setPlaceDate(date);
+            restaurant.getKitchen().getStationaryOrderDao().save(order);
+        } else if(option == 2) {
+            DeliveryOrder order = new DeliveryOrder();
+            System.out.println("Numer Klienta:");
+            long clientId = scanner.nextLong();
+            Client client = restaurant.getClientDao().get(clientId).get();
+            long itemNumber = -1;
+            while(true) {
+                System.out.println("Numer dania(0 aby zakończyć):");
+                itemNumber = scanner.nextLong();
+                if(itemNumber == 0) {
+                    break;
+                }
+                System.out.println("ilość: ");
+                Integer quantity = scanner.nextInt();
+                order.getOrderedItems().put(restaurant.getMenu().get(itemNumber - 1).get(), quantity);
+            }
+            order.calculatePrice();
+            Date date = Date.from(Instant.now());
+            order.setPlaceDate(date);
+            restaurant.getKitchen().getDeliveryOrderDao().save(order);
+        } else {
+            System.out.println("nieprawidłowa opcja");
+        }
     }
 
     @Override
@@ -90,7 +138,17 @@ public class UI implements UserInterface{
     }
 
     @Override
-    public void printAllOrders() {
+    public void printAwaitingOrders() {
+        System.out.println("Na miejscu:");
+        restaurant.getKitchen().getStationaryOrderDao()
+                .getAll()
+                .stream()
+                .forEach(order -> System.out.println(order));
+        System.out.println("Na wynos:");
+        restaurant.getKitchen().getDeliveryOrderDao()
+                .getAll()
+                .stream()
+                .forEach(order -> System.out.println(order));
 
     }
 
