@@ -50,6 +50,22 @@ public abstract class Order {
         this.isRejected = false;
     }
 
+    public int totalNumberOfItems() {
+        int totalNumber = 0;
+        for (Map.Entry<MenuRow, Integer> entry: orderedItems.entrySet()) {
+            totalNumber += entry.getValue();
+        }
+        return totalNumber;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
     public boolean isReady() {
         return isReady;
     }
@@ -82,7 +98,7 @@ public abstract class Order {
         this.orderedItems = orderedItems;
     }
 
-    public Date getPlaceTime() {
+    public Date getPlaceDate() {
         return placeDate;
     }
 

@@ -1,7 +1,8 @@
 package model;
 
 public class Waiter extends Employee {
-    private double tipSum;
+    private int tipSum;
+    private int numberOfOrdersExecuted;
     public Waiter() {
     }
 
@@ -12,14 +13,23 @@ public class Waiter extends Employee {
     @Override
     public String toString() {
         return super.toString() +
-                " " + tipSum;
+                " " + tipSum + "zł" +
+                " " + numberOfOrdersExecuted;
     }
 
-    public double getTipSum() {
+    public int getNumberOfOrdersExecuted() {
+        return numberOfOrdersExecuted;
+    }
+
+    public void setNumberOfOrdersExecuted(int numberOfOrdersExecuted) {
+        this.numberOfOrdersExecuted = numberOfOrdersExecuted;
+    }
+
+    public int getTipSum() {
         return tipSum;
     }
 
-    public void setTipSum(double tipSum) {
+    public void setTipSum(int tipSum) {
         this.tipSum = tipSum;
     }
 }

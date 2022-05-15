@@ -9,15 +9,13 @@ import java.util.List;
 
 public class Kitchen {
     private static Kitchen INSTANCE = null;
-    private static final int REALIZATION_TIME = 30;
-    private static final int DELIVERY_TIME = 120;
+
+    public static final int REALIZATION_TIME = 30;
+    public static final int DELIVERY_TIME = 120;
+
     private CookDao cookDao;
     private DeliveryOrderDao deliveryOrderDao;
     private StationaryOrderDao stationaryOrderDao;
-
-    private Kitchen() {
-
-    }
 
     public static Kitchen getInstance() {
         if(INSTANCE == null) {

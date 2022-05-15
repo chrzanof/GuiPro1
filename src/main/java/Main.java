@@ -38,7 +38,7 @@ public class Main {
         restaurant.setMenu(menu);
         UI ui = new UI(restaurant);
 
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 100; i++) {
             ui.newRandomOrder();
         }
 

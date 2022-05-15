@@ -114,6 +114,7 @@ public class UI implements UserInterface{
             order.calculatePrice();
             Date date = Date.from(Instant.now());
             order.setPlaceDate(date);
+            order.setWaiter(restaurant.getWaiterDao().get((int)(Math.random())*restaurant.getWaiterDao().getAll().size()).get());
             restaurant.getKitchen().getStationaryOrderDao().save(order);
         } else if(option == 2) {
             DeliveryOrder order = new DeliveryOrder();
@@ -178,8 +179,10 @@ public class UI implements UserInterface{
             StationaryOrder order = new StationaryOrder();
             order.setOrderedItems(casket);
             order.setClient(client);
+            order.setPlaceDate(Date.from(Instant.now()));
             order.calculatePrice();
             order.setTableNumber((int)(Math.random() * 9 + 1));
+            order.setWaiter(restaurant.getWaiterDao().get((int)(Math.random())*restaurant.getWaiterDao().getAll().size()).get());
             restaurant.getKitchen().getStationaryOrderDao().save(order);
         }
     }
@@ -208,9 +211,9 @@ public class UI implements UserInterface{
     @Override
     public void calculateAndPrintDailyTakings() {
         double sum = 0;
-        for (Order order :
-                restaurant.getExecutedOrders()) {
-            sum += order.getTotalPrice();
+        for (Order order : restaurant.getExecutedOrders()) {
+            if(!order.isRejected())
+                sum += order.getTotalPrice();
         }
         restaurant.setDailyTakings(sum);
         System.out.println("Utarg: "+ restaurant.getDailyTakings()+"zł");
@@ -273,7 +276,11 @@ public class UI implements UserInterface{
 
     @Override
     public void startWorking() {
-        restaurant.startWork();
+        try {
+            restaurant.startWork();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
