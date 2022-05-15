@@ -4,6 +4,8 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class MenuRow {
+    public static final String ANSI_RED = "\u001B[31m";
+    public static final String RESET = "\033[0m";
     private static long nextId = 1;
     private long id;
     private String name;
@@ -30,7 +32,7 @@ public class MenuRow {
                          " " + name +
                          " " + description +
                          " " + price + "zł" +
-                         " " + (isAvailable ? "":"niedostępny");
+                         " " + (isAvailable ? "":(ANSI_RED+"niedostępny"+ RESET));
     }
 
     public String convertToCSV() {
@@ -48,6 +50,7 @@ public class MenuRow {
 
     public void setId(long id) {
         this.id = id;
+        nextId = ++id;
     }
 
     public String getName() {

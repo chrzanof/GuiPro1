@@ -1,9 +1,12 @@
 import dao.*;
 import model.*;
+import ui.UI;
+import ui.UserInterface;
 
 import java.io.Reader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
@@ -33,7 +36,69 @@ public class Main {
         menu.setFile("menu.csv");
         menu.readFromCSV();
         restaurant.setMenu(menu);
-        menu.getAll().stream().forEach(menuRow -> System.out.println(menuRow));
+        UI ui = new UI(restaurant);
+
+
+        Scanner scanner = new Scanner(System.in);
+        int option = -1;
+        do {
+            ui.printOptions();
+            option = scanner.nextInt();
+
+            switch (option) {
+                case(1):
+                    ui.printAllMenu();
+                    break;
+                case(2):
+                    ui.addToMenu(scanner);
+                    break;
+                case(3):
+                    ui.deleteFromMenu(scanner);
+                    break;
+                case(4):
+                    ui.changeAvailability(scanner);
+                    break;
+
+                case(6):
+
+                    break;
+                case(7):
+
+                    break;
+                case(8):
+
+                    break;
+                case(9):
+
+                    break;
+                case(10):
+
+                    break;
+                case(11):
+
+                    break;
+                case(12):
+
+                    break;
+                case(13):
+
+                    break;
+                case(14):
+
+                    break;
+                case(15):
+
+                    break;
+
+                default:
+                    break;
+            }
+
+        } while(option != 0);
+
+        scanner.close();
+
+
 
 
 

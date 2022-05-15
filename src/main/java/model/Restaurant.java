@@ -10,7 +10,7 @@ import java.util.*;
 public class Restaurant {
     private static Restaurant INSTANCE = null;
 
-    private Map<Date, Double> dailyTakings;
+    private double dailyTakings;
     private WaiterDao waiterDao;
     private DeliveryManDao deliveryManDao;
     private ClientDao clientDao;
@@ -19,7 +19,6 @@ public class Restaurant {
     private Menu menu;
 
     private Restaurant() {
-        this.dailyTakings = new HashMap<>();
         this.executedOrders = new ArrayList<>();
     }
 
@@ -42,11 +41,11 @@ public class Restaurant {
         this.executedOrders.add(order);
     }
 
-    public Map<Date, Double> getDailyTakings() {
+    public double getDailyTakings() {
         return dailyTakings;
     }
 
-    public void setDailyTakings(Map<Date, Double> dailyTakings) {
+    public void setDailyTakings(double dailyTakings) {
         this.dailyTakings = dailyTakings;
     }
 
