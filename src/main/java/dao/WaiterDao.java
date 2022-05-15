@@ -33,11 +33,6 @@ public class WaiterDao implements Dao<Waiter>{
     }
 
     @Override
-    public void update(Waiter waiter, String[] params) {
-
-    }
-
-    @Override
     public void delete(Waiter waiter) {
         waiters.remove(waiter);
     }

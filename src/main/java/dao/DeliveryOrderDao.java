@@ -32,10 +32,6 @@ public class DeliveryOrderDao implements Dao<DeliveryOrder>{
         deliveryOrders.add(deliveryOrder);
     }
 
-    @Override
-    public void update(DeliveryOrder deliveryOrder, String[] params) {
-
-    }
 
     @Override
     public void delete(DeliveryOrder deliveryOrder) {

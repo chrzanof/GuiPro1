@@ -32,10 +32,6 @@ public class StationaryOrderDao implements Dao<StationaryOrder>{
         stationaryOrders.add(stationaryOrder);
     }
 
-    @Override
-    public void update(StationaryOrder stationaryOrder, String[] params) {
-
-    }
 
     @Override
     public void delete(StationaryOrder stationaryOrder) {

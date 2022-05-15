@@ -33,11 +33,6 @@ public class CookDao implements Dao<Cook>{
     }
 
     @Override
-    public void update(Cook cook, String[] params) {
-
-    }
-
-    @Override
     public void delete(Cook cook) {
         cooks.remove(cook);
     }

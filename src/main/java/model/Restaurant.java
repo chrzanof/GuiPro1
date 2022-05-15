@@ -29,6 +29,15 @@ public class Restaurant {
         return INSTANCE;
     }
 
+
+
+    public void startWork(){
+
+    }
+
+
+
+
     public Menu getMenu() {
         return menu;
     }

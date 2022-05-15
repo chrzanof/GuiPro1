@@ -28,6 +28,10 @@ public class ClientDao implements Dao<Client> {
         return index;
     }
 
+    public Optional<Client> getByIndex(long index) {
+        return Optional.ofNullable(clients.get((int) index));
+    }
+
     @Override
     public Optional<Client> get(long id) {
         return Optional.ofNullable(clients.get((int)getIndexOfId(id)));
@@ -43,10 +47,6 @@ public class ClientDao implements Dao<Client> {
         clients.add(client);
     }
 
-    @Override
-    public void update(Client client, String[] params) {
-
-    }
 
     @Override
     public void delete(Client client) {

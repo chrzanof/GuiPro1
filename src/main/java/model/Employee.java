@@ -1,6 +1,6 @@
 package model;
 
-abstract class Employee {
+public abstract class Employee {
     protected static long nextId = 1;
     protected long id;
     protected String name;

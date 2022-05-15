@@ -4,9 +4,8 @@ import model.*;
 
 import java.sql.Time;
 import java.time.Instant;
-import java.util.Date;
-import java.util.Scanner;
-import java.util.Timer;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class UI implements UserInterface{
     Restaurant restaurant;
@@ -18,6 +17,7 @@ public class UI implements UserInterface{
 
     @Override
     public void printOptions() {
+        System.out.println();
         System.out.println(
                 "1 - Menu\n" +
                 "2 - dodaj do Menu\n" +
@@ -92,16 +92,24 @@ public class UI implements UserInterface{
             System.out.println("Numer Klienta:");
             long clientId = scanner.nextLong();
             Client client = restaurant.getClientDao().get(clientId).get();
-            long itemNumber = -1;
+            order.setClient(client);
+            System.out.println("Numer stolika:");
+            int tableNumber = scanner.nextInt();
+            order.setTableNumber(tableNumber);
             while(true) {
                 System.out.println("Numer dania(0 aby zakończyć):");
-                itemNumber = scanner.nextLong();
+                long itemNumber = scanner.nextLong();
                 if(itemNumber == 0) {
                     break;
                 }
-                System.out.println("ilość: ");
-                Integer quantity = scanner.nextInt();
-                order.getOrderedItems().put(restaurant.getMenu().get(itemNumber - 1).get(), quantity);
+                MenuRow item = restaurant.getMenu().get(itemNumber - 1).get();
+                if(item.isAvailable()){
+                    System.out.println("ilość: ");
+                    Integer quantity = scanner.nextInt();
+                    order.getOrderedItems().put(item, quantity);
+                } else {
+                    System.out.println("Produkt nie dostępny");
+                }
             }
             order.calculatePrice();
             Date date = Date.from(Instant.now());
@@ -112,16 +120,25 @@ public class UI implements UserInterface{
             System.out.println("Numer Klienta:");
             long clientId = scanner.nextLong();
             Client client = restaurant.getClientDao().get(clientId).get();
-            long itemNumber = -1;
+            order.setClient(client);
+            scanner.nextLine();
+            System.out.println("Adres:");
+            String address = scanner.nextLine();
+            order.setAddress(address);
             while(true) {
                 System.out.println("Numer dania(0 aby zakończyć):");
-                itemNumber = scanner.nextLong();
+                long itemNumber = scanner.nextLong();
                 if(itemNumber == 0) {
                     break;
                 }
-                System.out.println("ilość: ");
-                Integer quantity = scanner.nextInt();
-                order.getOrderedItems().put(restaurant.getMenu().get(itemNumber - 1).get(), quantity);
+                MenuRow item = restaurant.getMenu().get(itemNumber - 1).get();
+                if(item.isAvailable()){
+                    System.out.println("ilość: ");
+                    Integer quantity = scanner.nextInt();
+                    order.getOrderedItems().put(item, quantity);
+                } else {
+                    System.out.println("Produkt nie dostępny");
+                }
             }
             order.calculatePrice();
             Date date = Date.from(Instant.now());
@@ -135,6 +152,36 @@ public class UI implements UserInterface{
     @Override
     public void newRandomOrder() {
 
+        int clientNumber =(int) (Math.random() * restaurant.getClientDao().getAll().size());
+        Client client = restaurant.getClientDao().getByIndex(clientNumber).get();
+        int itemCount = (int) (Math.random() * 9  + 1);
+        int type = (int)(Math.random() * 2);
+        Map<MenuRow, Integer> casket = new HashMap<>();
+        for (int i = 0; i < itemCount; i++) {
+            int itemIndex = (int) (Math.random() * restaurant.getMenu().getAll().size());
+            Integer itemQuantity = (int)(Math.random() * 5 + 1);
+            MenuRow row = restaurant.getMenu().get(itemIndex).get();
+            if(row.isAvailable())
+                casket.put(row,itemQuantity);
+            else {
+                --i;
+            }
+        }
+        if(type > 0){
+            DeliveryOrder order = new DeliveryOrder();
+            order.setOrderedItems(casket);
+            order.setClient(client);
+            order.setPlaceDate(Date.from(Instant.now()));
+            order.calculatePrice();
+            restaurant.getKitchen().getDeliveryOrderDao().save(order);
+        } else {
+            StationaryOrder order = new StationaryOrder();
+            order.setOrderedItems(casket);
+            order.setClient(client);
+            order.calculatePrice();
+            order.setTableNumber((int)(Math.random() * 9 + 1));
+            restaurant.getKitchen().getStationaryOrderDao().save(order);
+        }
     }
 
     @Override
@@ -154,41 +201,140 @@ public class UI implements UserInterface{
 
     @Override
     public void printExecutedOrders() {
-
+        System.out.println("zakończone zamówienia:");
+        restaurant.getExecutedOrders().stream().forEach(order -> System.out.println(order));
     }
 
     @Override
     public void calculateAndPrintDailyTakings() {
-
+        double sum = 0;
+        for (Order order :
+                restaurant.getExecutedOrders()) {
+            sum += order.getTotalPrice();
+        }
+        restaurant.setDailyTakings(sum);
+        System.out.println("Utarg: "+ restaurant.getDailyTakings()+"zł");
     }
 
     @Override
     public void addNewEmployee(Scanner scanner) {
+        scanner.nextLine();
+        System.out.println("Imie:");
+        String name = scanner.nextLine();
+        System.out.println("Nazwisko:");
+        String surname = scanner.nextLine();
+        System.out.println("Numer telefonu:");
+        String phoneNumber = scanner.nextLine();
+        System.out.println("1 - Kucharz   2 - Kelner   3 - Dostawca");
+        int option = scanner.nextInt();
 
+        switch (option) {
+            case(1):
+                restaurant.getKitchen().getCookDao().save(new Cook(name, surname, phoneNumber));
+                break;
+            case(2):
+                restaurant.getWaiterDao().save(new Waiter(name, surname, phoneNumber));
+                break;
+            case(3):
+                restaurant.getDeliveryManDao().save(new DeliveryMan(name,surname,phoneNumber));
+                break;
+            default:
+                System.out.println("Błąd. Zła opcja");
+                break;
+        }
     }
 
     @Override
     public void deleteEmployee(Scanner scanner) {
-
+        System.out.println("Podaj id pracownika");
+        long id = scanner.nextLong();
+        List<Cook> cooks = restaurant.getKitchen().getCookDao().getAll();
+        List<Waiter> waiters = restaurant.getWaiterDao().getAll();
+        List<DeliveryMan> deliveryMEN = restaurant.getDeliveryManDao().getAll();
+        cooks = cooks.stream()
+                .filter(x->x.getId() == id)
+                .collect(Collectors.toList());
+        waiters = waiters.stream()
+                .filter(x->x.getId() == id)
+                .collect(Collectors.toList());
+        deliveryMEN = deliveryMEN.stream()
+                .filter(x-> x.getId() == id)
+                .collect(Collectors.toList());
+        for(Cook cook : cooks){
+            restaurant.getKitchen().getCookDao().delete(cook);
+        }
+        for(Waiter waiter : waiters) {
+            restaurant.getWaiterDao().delete(waiter);
+        }
+        for(DeliveryMan deliveryMan: deliveryMEN) {
+            restaurant.getDeliveryManDao().delete(deliveryMan);
+        }
     }
 
     @Override
     public void startWorking() {
-
+        restaurant.startWork();
     }
 
     @Override
     public void printAllEmployees() {
+        System.out.println("Kucharze:");
+        restaurant.getKitchen().getCookDao().getAll()
+                .stream()
+                .forEach(cook-> System.out.println(cook));
+        System.out.println("Kelnerzy:");
+        restaurant.getWaiterDao().getAll()
+                .stream()
+                .forEach(waiter -> System.out.println(waiter));
+        System.out.println("Dostawcy:");
+        restaurant.getDeliveryManDao().getAll()
+                .stream()
+                .forEach(deliveryMan -> System.out.println(deliveryMan));
+
 
     }
 
     @Override
     public void printEmployee(Scanner scanner) {
+        scanner.nextLine();
+        System.out.println("Imie:");
+        List<Cook> cooks = restaurant.getKitchen().getCookDao().getAll();
+        List<Waiter> waiters = restaurant.getWaiterDao().getAll();
+        List<DeliveryMan> deliveryMEN = restaurant.getDeliveryManDao().getAll();
+        String name = scanner.nextLine();
+        cooks = cooks.stream()
+                .filter(cook -> cook.getName().equals(name))
+                .collect(Collectors.toList());
+        waiters = waiters.stream()
+                .filter(waiter -> waiter.getName().equals(name))
+                .collect(Collectors.toList());
+        deliveryMEN = deliveryMEN.stream()
+                .filter(deliveryMan -> deliveryMan.getName().equals(name))
+                .collect(Collectors.toList());
+        if(cooks.size() + waiters.size() + deliveryMEN.size() > 1){
+            System.out.println("Nazwisko:");
+            String surname = scanner.nextLine();
+            cooks = cooks.stream()
+                    .filter(cook -> cook.getSurname().equals(surname))
+                    .collect(Collectors.toList());
+            waiters = waiters.stream()
+                    .filter(waiter -> waiter.getSurname().equals(surname))
+                    .collect(Collectors.toList());
+            deliveryMEN = deliveryMEN.stream()
+                    .filter(deliveryMan -> deliveryMan.getSurname().equals(surname))
+                    .collect(Collectors.toList());
+        }
 
+        cooks.stream().forEach(x -> System.out.println(x));
+        waiters.stream().forEach(x -> System.out.println(x));
+        deliveryMEN.stream().forEach(x -> System.out.println(x));
     }
 
     @Override
     public void printAllClients(Scanner scanner) {
-
+        System.out.println("Klienci:");
+        restaurant.getClientDao().getAll()
+                .stream()
+                .forEach(client -> System.out.println(client));
     }
 }

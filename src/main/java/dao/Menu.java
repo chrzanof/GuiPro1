@@ -93,10 +93,6 @@ public class Menu implements Dao<MenuRow> {
         itemList.add(menuRow);
     }
 
-    @Override
-    public void update(MenuRow menuRow, String[] params) {
-
-    }
 
     @Override
     public void delete(MenuRow menuRow) {

@@ -32,10 +32,6 @@ public class DeliveryManDao implements Dao<DeliveryMan> {
         deliveryManList.add(deliveryMan);
     }
 
-    @Override
-    public void update(DeliveryMan deliveryMan, String[] params) {
-
-    }
 
     @Override
     public void delete(DeliveryMan deliveryMan) {

@@ -20,7 +20,7 @@ public abstract class Order {
         return
                 id +
                 " " + client +
-                " " + orderedItems +
+                " " + orderedItems.toString() +
                 " " + placeDate +
                 " " + totalPrice +
                 " " + isReady +

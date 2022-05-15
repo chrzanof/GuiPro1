@@ -17,8 +17,8 @@ public class Main {
         clientDao.save(new Client("Michał","Kowalski","669-515-113","email3@email.com"));
         clientDao.save(new Client("Sofia","Urbaniak","979-156-243","email4@email.com"));
         CookDao cookDao = new CookDao();
-        cookDao.save(new Cook("imie1","Nazwisko1","111-111-111"));
-        cookDao.save(new Cook("imie2","Nazwisko2","222-222-222"));
+        cookDao.save(new Cook("imie","Nazwisko1","111-111-111"));
+        cookDao.save(new Cook("imie","Nazwisko2","222-222-222"));
         WaiterDao waiterDao = new WaiterDao();
         waiterDao.save(new Waiter("Kelner","Kelnerski","333-333-333"));
         DeliveryManDao deliveryManDao = new DeliveryManDao();
@@ -38,6 +38,9 @@ public class Main {
         restaurant.setMenu(menu);
         UI ui = new UI(restaurant);
 
+        for (int i = 0; i < 10; i++) {
+            ui.newRandomOrder();
+        }
 
         Scanner scanner = new Scanner(System.in);
         int option = -1;
