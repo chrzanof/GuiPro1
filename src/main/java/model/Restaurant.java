@@ -108,14 +108,14 @@ public class Restaurant {
                             System.out.println(secondsPassed + ": Odrzucono zamówienie " + stationaryOrder.getId());
                         } else {
                             System.out.println(secondsPassed + ": Przyjęto zamówienie " + stationaryOrder.getId());
+                            stationaryOrder.setTotalPrice(stationaryOrder.getTotalPrice()*0.8);
                         }
                     } else {
                         double tipSum = stationaryOrder.getWaiter().getTipSum();
-                        double tip = (stationaryOrder.getTotalPrice()
-                                * 0.1);
+                        double tip = calculateTip(stationaryOrder.getTotalPrice(), secondsPassed);
                         tipSum += tip;
                         stationaryOrder.getWaiter().setTipSum(tipSum);
-                        stationaryOrder.setTotalPrice(stationaryOrder.getTotalPrice()*0.8);
+
                     }
                     stationaryOrder.getWaiter().setNumberOfOrdersExecuted(stationaryOrder.getWaiter().getNumberOfOrdersExecuted() + 1);
                     this.executedOrders.add(stationaryOrder);
@@ -150,16 +150,15 @@ public class Restaurant {
                         System.out.println(secondsPassed + ": Odrzucono zamówienie " + deliveryOrder.getId());
                     } else {
                         System.out.println(secondsPassed + ": Przyjęto zamówienie " + deliveryOrder.getId());
+                        deliveryOrder.setTotalPrice(deliveryOrder.getTotalPrice()*0.8);
                     }
                 }
                 else {
                     double tipSum = deliveryOrder.getDeliveryMan().getTipSum();
-                    double tip = (deliveryOrder.getTotalPrice()
-                            * 0.1);
-
+                    double tip = calculateTip(deliveryOrder.getTotalPrice(), secondsPassed);
                     tipSum += tip;
                     deliveryOrder.getDeliveryMan().setTipSum(tipSum);
-                    deliveryOrder.setTotalPrice(deliveryOrder.getTotalPrice()*0.8);
+
                 }
                 deliveryOrder.getDeliveryMan().setNumberOfOrdersDelivered(deliveryOrder.getDeliveryMan().getNumberOfOrdersDelivered() + 1);
 
@@ -169,7 +168,13 @@ public class Restaurant {
 
             secondsPassed++;
         }
-        //deliverOrders(startTime, ordersToDeliver);
+
+    }
+    private double calculateTip(double price, long secondsPassed) {
+        double basicTip = price * 0.1;
+        double maxTime = MAX_WAIT_TIME;
+        double modifier = (maxTime - secondsPassed) / maxTime;
+        return basicTip * modifier;
     }
 
 
